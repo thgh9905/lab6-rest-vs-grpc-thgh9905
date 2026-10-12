@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import base64
 from flask import Flask, request, Response
 import jsonpickle
 from PIL import Image
@@ -49,14 +50,43 @@ def rawimage():
     )
 
 
-@app.route('/api/dotproduct', methods=['POST'])
+@app.route('/api/dotproduct', methods=['POST']) #
 def dotproduct():
-    pass
+    r = request.get_json()
+    a = r[a]
+    b = r[b]
+    response = sum(x * y for x, y in zip(a, b))
+    response_pickled = jsonpickle.encode(response)
+    return Response(
+        response=response_pickled,
+        status=200,
+        mimetype="application/json"
+    )
+    # pass
 
 
-@app.route('/api/jsonimage', methods=['POST'])
+@app.route('/api/jsonimage', methods=['POST']) #
 def jsonimage():
-    pass
+    try:
+        r = request.get_json()
+        img_bytes = base64.b64decode(r['image'])
+        ioBuffer = io.BytesIO(img_bytes)
+        img = Image.open(ioBuffer)
+
+        response = {
+            'width': img.size[0],
+            'height': img.size[1]
+        }
+    except:
+        response = {'width': 0, 'height': 0}
+
+    response_pickled = jsonpickle.encode(response)
+    return Response(
+        response=response_pickled,
+        status=200,
+        mimetype="application/json"
+    )
+    # pass
 
 
 if __name__ == '__main__':
