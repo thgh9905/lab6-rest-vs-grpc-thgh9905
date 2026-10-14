@@ -47,6 +47,7 @@ def doDotProduct(addr, debug=False): #
     b = [random.random() for _ in range(100)]
     dotProduct_url = addr + '/api/dotproduct'
     response = request.post(dotProduct_url, json={'a': a, 'b': b})
+
     if debug:
         print("Response is", response)
         print(json.loads(response.text))
@@ -59,6 +60,10 @@ def doJsonImage(addr, debug=False): #
 
     image_url = addr + '/api/rawimage'
     response = requests.post(image_url, json={'image': img_encoded})
+    
+    if debug:
+        print("Response is", response)
+        print(json.loads(response.text))
     # pass
 
 
