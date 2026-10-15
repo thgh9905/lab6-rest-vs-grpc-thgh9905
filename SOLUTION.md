@@ -1,15 +1,15 @@
 
 |  Method 	| Local  	| Same-Zone  	|  Different Region 	|
 |---	|---	|---	|---	|
-|   REST add	|   	|   	|  	|
-|   gRPC add	|   	|   0.8578007969999817	|    	|
-|   REST rawimg	|   	|   	|   	|
-|   gRPC rawimg	|       |   	|   	|
+|   REST add	|   	|   2.3913779610002166	|  	|
+|   gRPC add	|   	|   0.9151106849999451	|    	|
+|   REST rawimg	|   	|   40.388733254000726	|   	|
+|   gRPC rawimg	|       |   20.46726627099997	|   	|
 |   REST dotproduct	|   	|   	|  	|
-|   gRPC dotproduct	|   	|   	|    	|
+|   gRPC dotproduct	|   	|   0.9270489569998972	|    	|
 |   REST jsonimg	|   	|   	|   	|
-|   gRPC jsonimg	|       |   	|   	|
-|   PING        |       |      |       |
+|   gRPC jsonimg	|       |   57.20831339100005	|   	|
+|   PING        |       |   0.282   |       |
 
 You should measure the basic latency  using the `ping` command - this can be construed to be the latency without any RPC or python overhead.
 
