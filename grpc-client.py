@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
-import lab6_pb2
-from lab6_pb2_grpc import Lab6
 from __future__ import print_function
+# from google.protobuf.internal.builder import BuildTopDescriptorsAndMessages
+import lab6_pb2_grpc
+import lab6_pb2
+# from lab6_pb2_grpc import Lab6
 
-import requests
+# import requests
 import json
 import time
 import base64
@@ -19,7 +21,7 @@ import lab6_pb2_grpc
 def doRawImage(addr, debug=False):
     img = open('Flatirons_Winter_Sunrise_edit_2.jpg', 'rb').read()
 
-    reply = addr.rawImage(lab6_pb2.rawImageMsg(img))
+    reply = addr.rawImage(lab6_pb2.rawImageMsg(img = img))
 
     if debug:
         print("Response is", reply)
@@ -34,7 +36,7 @@ def doDotProduct(addr, debug=False): #
     a = [random.random() for _ in range(100)]
     b = [random.random() for _ in range(100)]
 
-    reply = addr.dotProduct(lab6_pb2.dotProductMsg(a, b))
+    reply = addr.dotProduct(lab6_pb2.dotProductMsg(a = a, b = b))
 
     if debug:
         print("Response is", reply)
@@ -43,7 +45,7 @@ def doJsonImage(addr, debug=False): #
     img = open('Flatirons_Winter_Sunrise_edit_2.jpg', 'rb').read()
     img_encoded = base64.b64encode(img).decode('utf-8')
 
-    reply = addr.jsonImage(lab6_pb2.jsonImageMsg(img_encoded))
+    reply = addr.jsonImage(lab6_pb2.jsonImageMsg(img = img_encoded))
 
     if debug:
         print("Response is", reply)
@@ -54,12 +56,12 @@ def doJsonImage(addr, debug=False): #
 # ---------------------------------------------------------
 
 parser = argparse.ArgumentParser(
-    description='REST client for measuring server operations'
+    description='gRPC client for measuring server operations'
 )
 
 parser.add_argument(
     'host',
-    help='IP address or hostname of the REST server'
+    help='IP address or hostname of the gRPC server'
 )
 
 parser.add_argument(
@@ -94,10 +96,28 @@ args = parser.parse_args()
 # Build server address
 # ---------------------------------------------------------
 
+addr = f"{args.host}:{args.port}"
 
+print(f"Running {args.reps} reps against {addr}")
 
+channel = grpc.insecure_channel(addr) # opens a channel to the server without TLS
+stub = lab6_pb2_grpc.Lab6Stub(channel)
+operations = {
+    'add': doAdd,
+    'rawImage': doRawImage,
+    'dotProduct': doDotProduct,
+    'jsonImage': doJsonImage,
+}
+operation = operations[args.cmd]
 
 # ---------------------------------------------------------
 # Perform requested operation
 # ---------------------------------------------------------
 
+start = time.perf_counter()
+
+for x in range(args.reps):
+    operation(stub, debug=args.debug)
+
+delta = ((time.perf_counter() - start) / args.reps) * 1000
+print("Took", delta, "ms per operation")
