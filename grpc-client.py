@@ -21,7 +21,7 @@ import lab6_pb2_grpc
 def doRawImage(addr, debug=False):
     img = open('Flatirons_Winter_Sunrise_edit_2.jpg', 'rb').read()
 
-    reply = addr.rawImage(lab6_pb2.rawImageMsg(img = img))
+    reply = addr.rawImage(lab6_pb2.rawImageMsg(img = img)) # calls the server's rawimage rpc and wait for the rawimage reply
 
     if debug:
         print("Response is", reply)

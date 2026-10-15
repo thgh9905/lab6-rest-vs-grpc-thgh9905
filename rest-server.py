@@ -53,10 +53,10 @@ def rawimage():
 @app.route('/api/dotproduct', methods=['POST']) #
 def dotproduct():
     r = request.get_json()
-    a = r['a']
+    a = r['a'] # pull out those two lists 
     b = r['b']
     response = sum(x * y for x, y in zip(a, b))
-    response_pickled = jsonpickle.encode(response)
+    response_pickled = jsonpickle.encode(response) # encode that number as a json text
     return Response(
         response=response_pickled,
         status=200,
@@ -69,10 +69,10 @@ def dotproduct():
 def jsonimage():
     try:
         r = request.get_json()
-        img_bytes = base64.b64decode(r['image'])
+        img_bytes = base64.b64decode(r['image']) # convert those base64 text back into bytes
         ioBuffer = io.BytesIO(img_bytes)
         img = Image.open(ioBuffer)
-
+        # return the dimensions of the picture
         response = {
             'width': img.size[0],
             'height': img.size[1]
@@ -80,7 +80,7 @@ def jsonimage():
     except:
         response = {'width': 0, 'height': 0}
 
-    response_pickled = jsonpickle.encode(response)
+    response_pickled = jsonpickle.encode(response) # encode that number as json text
     return Response(
         response=response_pickled,
         status=200,

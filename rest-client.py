@@ -43,7 +43,7 @@ def doAdd(addr, debug=False):
 
 
 def doDotProduct(addr, debug=False): #
-    a = [random.random() for _ in range(100)]
+    a = [random.random() for _ in range(100)] # Two lists of random numbers
     b = [random.random() for _ in range(100)]
     dotProduct_url = addr + '/api/dotproduct'
     response = requests.post(dotProduct_url, json={'a': a, 'b': b})
@@ -54,8 +54,8 @@ def doDotProduct(addr, debug=False): #
 
 
 def doJsonImage(addr, debug=False): #
-    img = open('Flatirons_Winter_Sunrise_edit_2.jpg', 'rb').read()
-    img_encoded = base64.b64encode(img).decode('utf-8')
+    img = open('Flatirons_Winter_Sunrise_edit_2.jpg', 'rb').read() # Read the image as raw bytes
+    img_encoded = base64.b64encode(img).decode('utf-8') # convert those bytes to base64 text 
 
     image_url = addr + '/api/jsonimage'
     response = requests.post(image_url, json={'image': img_encoded})
