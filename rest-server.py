@@ -53,8 +53,8 @@ def rawimage():
 @app.route('/api/dotproduct', methods=['POST']) #
 def dotproduct():
     r = request.get_json()
-    a = r[a]
-    b = r[b]
+    a = r['a']
+    b = r['b']
     response = sum(x * y for x, y in zip(a, b))
     response_pickled = jsonpickle.encode(response)
     return Response(
