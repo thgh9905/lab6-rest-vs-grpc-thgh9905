@@ -1,8 +1,8 @@
 
 |  Method 	| Local  	| Same-Zone  	|  Different Region 	|
-|---	|---	|---	|---	|---	|
+|---	|---	|---	|---	|
 |   REST add	|   	|   	|  	|
-|   gRPC add	|   	|   	|    	|
+|   gRPC add	|   	|   0.8578007969999817	|    	|
 |   REST rawimg	|   	|   	|   	|
 |   gRPC rawimg	|       |   	|   	|
 |   REST dotproduct	|   	|   	|  	|
